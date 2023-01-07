@@ -107,8 +107,6 @@ CREATE TABLE `tb_konsulibu` (
 --
 
 INSERT INTO `tb_konsulibu` (`namaibu`, `nik`, `keperluan`, `usiakandungan`, `tensidarah`, `beratbadan`, `keluhan`, `saran`, `statuskesehatanibu`, `obatibu`, `tanggalkonsul`) VALUES
-('Sumarni', '1234098765', '', '', '', '', '', '', '', '', ''),
-('Sumarni', '1234098765', '', '', '', '', '', '', '', '', ''),
 ('Sumarni', '1234098765', 'Cek Kandungan', '3', '108', '69', '-', 'Mulai Istirahat Cukup', 'Sehat', 'Susu Bumil', '06-01-2023');
 
 --
