@@ -1,0 +1,12 @@
+body{display:block;
+-khtml-user-select:none;
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+-o-user-select:none;
+user-select:none;
+unselectable:on;
+onmousedown:return false;
+oncontexmenu:return false;
+onselectstart:return false;
+pointer-events:none;}
