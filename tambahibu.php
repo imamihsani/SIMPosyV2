@@ -69,9 +69,3 @@
 </body>
 
 </html>
-<?php
-include "koneksi.php";
-if(isset($_POST['daftarkanibu'])){
-    mysqli_query($koneksi, "INSERT INTO tb_ibu set nik = '$_POST[nik]',")
-}
-?>
