@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Jan 2023 pada 02.39
--- Versi server: 10.4.24-MariaDB
--- Versi PHP: 8.1.6
+-- Generation Time: Jan 07, 2023 at 07:40 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -24,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_balita`
+-- Table structure for table `tb_balita`
 --
 
 CREATE TABLE `tb_balita` (
@@ -43,7 +44,7 @@ CREATE TABLE `tb_balita` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `tb_balita`
+-- Dumping data for table `tb_balita`
 --
 
 INSERT INTO `tb_balita` (`id_balita`, `nik`, `namabalita`, `anakdari`, `tgllahir`, `foto`, `riwayatpenyakit`, `jeniskelamin`, `bk`, `alamat`, `bpjs`, `tgldftrbalita`) VALUES
@@ -54,7 +55,7 @@ INSERT INTO `tb_balita` (`id_balita`, `nik`, `namabalita`, `anakdari`, `tgllahir
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_ibu`
+-- Table structure for table `tb_ibu`
 --
 
 CREATE TABLE `tb_ibu` (
@@ -75,7 +76,7 @@ CREATE TABLE `tb_ibu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `tb_ibu`
+-- Dumping data for table `tb_ibu`
 --
 
 INSERT INTO `tb_ibu` (`id_ibu`, `nik`, `namaibu`, `nohp`, `tgllahir`, `foto`, `riwayatpenyakit`, `jumlahanakluarkandungan`, `statuskehamilan`, `statuspernikahan`, `alamat`, `pekerjaan`, `bpjs`, `tgldftr`) VALUES
@@ -85,10 +86,11 @@ INSERT INTO `tb_ibu` (`id_ibu`, `nik`, `namaibu`, `nohp`, `tgllahir`, `foto`, `r
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_konsulibu`
+-- Table structure for table `tb_konsulibu`
 --
 
 CREATE TABLE `tb_konsulibu` (
+  `id_ibu` int(20) NOT NULL,
   `namaibu` varchar(100) NOT NULL,
   `nik` varchar(20) NOT NULL,
   `keperluan` varchar(50) NOT NULL,
@@ -103,42 +105,41 @@ CREATE TABLE `tb_konsulibu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `tb_konsulibu`
+-- Dumping data for table `tb_konsulibu`
 --
 
-INSERT INTO `tb_konsulibu` (`namaibu`, `nik`, `keperluan`, `usiakandungan`, `tensidarah`, `beratbadan`, `keluhan`, `saran`, `statuskesehatanibu`, `obatibu`, `tanggalkonsul`) VALUES
-('Sumarni', '1234098765', '', '', '', '', '', '', '', '', ''),
-('Sumarni', '1234098765', '', '', '', '', '', '', '', '', ''),
-('Sumarni', '1234098765', 'Cek Kandungan', '3', '108', '69', '-', 'Mulai Istirahat Cukup', 'Sehat', 'Susu Bumil', '06-01-2023');
+INSERT INTO `tb_konsulibu` (`id_ibu`, `namaibu`, `nik`, `keperluan`, `usiakandungan`, `tensidarah`, `beratbadan`, `keluhan`, `saran`, `statuskesehatanibu`, `obatibu`, `tanggalkonsul`) VALUES
+(70, 'Sumarni', '1234098765', 'Cek Kandungan', '4', '109', '69', '-', 'Istirahat Cukup', 'Sehat', 'Susu Prenagen', '07-01-2023'),
+(71, 'sa', '098711', 'Konsul KB', '-', '101', '55', 'Bercak di pipi', 'Kurangi pil', 'Sehat', '-', '07-01-2023');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `tb_balita`
+-- Indexes for table `tb_balita`
 --
 ALTER TABLE `tb_balita`
   ADD PRIMARY KEY (`id_balita`);
 
 --
--- Indeks untuk tabel `tb_ibu`
+-- Indexes for table `tb_ibu`
 --
 ALTER TABLE `tb_ibu`
   ADD PRIMARY KEY (`id_ibu`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_balita`
+-- AUTO_INCREMENT for table `tb_balita`
 --
 ALTER TABLE `tb_balita`
   MODIFY `id_balita` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_ibu`
+-- AUTO_INCREMENT for table `tb_ibu`
 --
 ALTER TABLE `tb_ibu`
   MODIFY `id_ibu` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;

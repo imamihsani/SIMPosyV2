@@ -48,8 +48,10 @@
           <div class="row mb-3">
             <div class="col-3">
               <div class="card shadow" style="max-height: 500px; border:none;">
-                <img src="aset/gambar/logo.png" class="d-block w-100 py-2 mx-1" style="max-height:500px;">
-                <h4 class="text-center py-2">Posyandu Kembang Harapan</h4>
+                <div class="card-body">
+                  <img src="aset/gambar/logo.png" class="d-block w-100 py-2 mx-1" style="max-height:500px;">
+                  <h4 class="text-center py-2">Posyandu Kembang Harapan</h4>
+                </div>
               </div>
             </div>
             <div class="col-9">
@@ -181,7 +183,7 @@
           </div>
           <div style="background-image: linear-gradient( rgba(0, 0, 255, 0.6), rgba(0,0,100,0.6))" class="shadow">
             <h4 class="text-center text-white py-4">Partner Kami</h4>
-            <div class="row mt-2" style="margin-left: ; margin-right:; ">
+            <div class="row mt-2">
               <div class="col-3 mb-5">
                 <div class="card" style="background-color:transparent; border:none;">
                   <div class="card-body">
@@ -200,7 +202,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-3" style="">
+              <div class="col-3">
                 <div class="card" style="background-color:transparent; border:none;">
                   <div class="card-body">
                     <center>
@@ -209,7 +211,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-3" style="">
+              <div class="col-3">
                 <div class="card" style="background-color:transparent; border:none;">
                   <div class="card-body">
                     <center>
@@ -316,7 +318,7 @@
                   </div>
                 </div>
               </div>
-              <button type="button" class="btn btn-sm btn-danger" onClick="window.print();"><i class="fa fa-pdf"></i> PDF</button>
+              <a href="exportibu.php"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-file-text-o"></i> Export</button></a>
               <button type="button" value="Reload" onClick="document.location.reload(true)" class="btn btn-sm btn-info" data-bs-dismiss="modal"><i class="fa fa-refresh"></i> Refresh
                 <script>
                   function reloadpage() {
@@ -362,7 +364,7 @@
                 <tr>
                   <td scope="row"><?php echo $tampildataibu['nik'] ?></td>
                   <td>
-                    <center><img src="file/<?php echo $tampildataibu['foto']; ?>" style="width:150px; height:200px;"></center>
+                    <center><img src="file/<?php echo $tampildataibu['foto']; ?>" style="width:100px; height:150px;"></center>
                   </td>
                   <td><?php echo $tampildataibu['namaibu'] ?></td>
                   <td><?php echo $tampildataibu['nohp'] ?></td>
@@ -371,7 +373,7 @@
                     <center><button type="button" class="btn btn-sm btn-light mb-1" data-bs-toggle="modal" data-bs-target="#konsul<?php echo $tampildataibu['id_ibu'] ?>">
                         <i class="fa fa-stethoscope"></i>
                       </button>
-                      <button class="btn btn-sm btn-warning mb-1"><i class="fa fa-edit"></i>
+                      <button class="btn btn-sm btn-warning mb-1" data-bs-toggle="modal" data-bs-target="#edit<?php echo $tampildataibu['id_ibu'] ?>" data-id_ibu="<?php echo $tampildataibu['id_ibu'] ?>" data-namaibu="<?php echo $tampildataibu['namaibu'] ?>" data-nik="<?php echo $tampildataibu['nik'] ?>" data-nohp="<?php echo $tampildataibu['nohp'] ?>" data-tgllahir="<?php echo $tampildataibu['tgllahir'] ?>" data-foto="<?php echo $tampildataibu['foto'] ?>" data-riwayatpenyakit="<?php echo $tampildataibu['riwayatpenyakit'] ?>" data-jumlahanakluarkandungan="<?php echo $tampildataibu['jumlahanakluarkandungan'] ?>" data-statuskehamilan="<?php echo $tampildataibu['statuskehamilan'] ?>" data-statuspernikahan="<?php echo $tampildataibu['statuspernikahan'] ?>" data-alamat="<?php echo $tampildataibu['alamat'] ?>" data-pekerjaan="<?php echo $tampildataibu['pekerjaan'] ?>" data-bpjs="<?php echo $tampildataibu['bpjs'] ?>"><i class="fa fa-edit"></i>
                       </button>
                       <a href="riwayatibu.php?id_ibu=<?php echo $tampildataibu['id_ibu']; ?>"><button class=" btn btn-sm btn-success mb-1"><i class=" fa fa-history"></i>
 
@@ -379,6 +381,7 @@
                       <button class="btn btn-sm btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#hapus<?php echo $tampildataibu['id_ibu'] ?>"><i class="fa fa-trash"></i></button>
                     </center>
                   </td>
+
                   <div class="modal fade" id="konsul<?php echo $tampildataibu['id_ibu'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-md">
                       <div class="modal-content">
@@ -389,6 +392,7 @@
                         <div class="modal-body" style="background-color:lavender;">
 
                           <form method="post" action="">
+                            <input type="text" name="id_ibu" style="visibility:hidden;" class="form-control" id="floatingInput" value="<?php echo $tampildataibu['id_ibu'] ?>" required readonly autocomplete="off">
                             <div class="row">
                               <center>
                                 <img src="file/<?php echo $tampildataibu['foto']; ?>" class="mb-2" style="width:100px; height:100px;">
@@ -467,17 +471,95 @@
                     </div>
                   </div>
 
-                  <!-- <div class="modal fade" id="riwayat<?php echo $tampildataibu['id_ibu'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
+
+                  <div class="modal fade" id="edit<?php echo $tampildataibu['id_ibu'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
                       <div class="modal-content">
-                        <div class="modal-header" style="background-color:darkgreen;">
-                          <h1 class="modal-title fs-5 text-white" style="color:black" id="exampleModalLabel">Riwayat Konsul Ibu</h1>
+                        <div class="modal-header" style="background-color:goldenrod;">
+                          <h1 class="modal-title fs-5" style="color:black" id="exampleModalLabel">Rubah Data Detail Ibu</h1>
                           <button type="button" class="btn-close" style="background-color: aliceblue;" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body" style="background-color:darkseagreen;">
-                          <div class="card card-info">
-                            <h4 class="text-center">Gimana Cara Nampilin Table di Sini?</h4>
-                          </div>
+                        <div class="modal-body" style="background-color:khaki;">
+                          <form method="POST" action="" enctype="multipart/form-data">
+
+                            <?php
+                            include "koneksi.php";
+                            $id_ibu = $tampildataibu['id_ibu'];
+                            $ubahdataibu = mysqli_query($koneksi, "SELECT * FROM tb_ibu WHERE id_ibu = '$id_ibu'");
+                            $tampildataibu = mysqli_fetch_array($ubahdataibu)
+                            ?>
+                            <div class="row">
+                              <center>
+                                <img src="file/<?php echo $tampildataibu['foto']; ?>" class="mb-2" style="width:100px; height:100px;">
+                              </center>
+                              <!-- <div class="card mb-1" style="background-color:yellow">
+                                <div class="card-body"> -->
+                              <!-- </div>
+                              </div> -->
+                              <input type="text" name="id_ibu" style="visibility:hidden;" class="form-control" id="id_ibu" value="<?php echo $tampildataibu['id_ibu'] ?>" required readonly autocomplete="off">
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">Nama</label>
+                                <input type="text" name="namaibu" class="form-control" id="namaibu" value="<?php echo $tampildataibu['namaibu'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">NIK</label>
+                                <input type="number" name="nik" class="form-control" id="nik" value="<?php echo $tampildataibu['nik'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">No. HP/WA</label>
+                                <input type="number" name="nohp" class="form-control" id="nohp" value="<?php echo $tampildataibu['nohp'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">Tgl. Lahir</label>
+                                <input type="date" name="tgllahir" class="form-control" id="tgllahir" value="<?php echo $tampildataibu['tgllahir'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">Foto</label>
+                                <input type="file" name="foto" class="form-control" id="foto" value="file/<?php echo $tampildataibu['foto'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1 ">
+                                <label class="input-group-text" for="inputGroupFile01">Riwayat Penyakit</label>
+                                <input type="text" name="riwayatpenyakit" class="form-control" id="riwayatpenyakit" value="<?php echo $tampildataibu['riwayatpenyakit'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">Jml. Anak Luar Kndgn.</label>
+                                <input type="number" name="jumlahanakluarkandungan" class="form-control" id="jumlahanakluarkandungan" value="<?php echo $tampildataibu['jumlahanakluarkandungan'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1 ">
+                                <select class="form-select form-select-sm" name="statuskehamilan" id="statuskehamilan" aria-label="Default select example" required>
+                                  <option>Status Kehamilan</option>
+                                  <option value="tidak mengandung" name="statuskehamilan">Tidak Sedang Mengandung</option>
+                                  <option value="mengandung" name="statuskehamilan">Sedang Mengandung</option>
+                                </select>
+                              </div>
+                              <div class="input-group input-group-sm mb-1 ">
+                                <select class="form-select form-select-sm" name="statuspernikahan" id="statuspernikahan" aria-label="Default select example" required>
+                                  <option>Status Pernikahan</option>
+                                  <option value="bersuami" name="statuspernikahan">Bersuami</option>
+                                  <option value="janda" name="statuspernikahan">Janda</option>
+                                  <option value="belum bersuami" name="statuspernikahan">Belum Bersuami</option>
+                                </select>
+                              </div>
+                              <div class="input-group input-group-sm mb-1 ">
+                                <label class="input-group-text" for="inputGroupFile01">Alamat</label>
+                                <input type="text" name="alamat" class="form-control" id="alamat" value="<?php echo $tampildataibu['alamat'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1 ">
+                                <label class="input-group-text" for="inputGroupFile01">Pekerjaan</label>
+                                <input type="text" name="pekerjaan" class="form-control" id="pekerjaan" value="<?php echo $tampildataibu['pekerjaan'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1 ">
+                                <select class="form-select form-select-sm" name="bpjs" id="bpjs" aria-label="Default select example" required>
+                                  <option>BPJS</option>
+                                  <option value="ya" name="bpjs">Ya</option>
+                                  <option value="tidak" name="bpjs">Tidak</option>
+                                </select>
+                              </div>
+                              <input type="hidden" name="tgldftr" class="form-control" id="tgldftr" value="<?php echo $tampildataibu['tgldftr'] ?>" readonly autocomplete="off">
+                            </div>
+                            <button class="btn btn-warning btn-sm float-end mb-3 shadow" type="submit" name="updateibu"><i class="bi bi-save"></i> Update</button>
+
+                          </form>
                           <br><br>
 
                           <p class="text-center text-muted" style="font-size:13px;">Posyandu Kembang Harapan<br>Krobokan, Tamanan, Banguntapan, Bantul, D.I. Yogyakarta <br>Copyright <script type="text/javascript">
@@ -489,7 +571,7 @@
                         </div>
                       </div>
                     </div>
-                  </div> -->
+                  </div>
 
 
                   <div class="modal fade" id="hapus<?php echo $tampildataibu['id_ibu'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -597,7 +679,7 @@
                   </div>
                 </div>
               </div>
-              <button type="button" class="btn btn-sm btn-danger" onClick="window.print();"><i class="fa fa-pdf"></i> PDF</button>
+              <a href="exportbalita.php"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-file-text-o"></i> Export</button></a>
               <button type="button" value="Reload" onClick="document.location.reload(true)" class="btn btn-sm btn-info" data-bs-dismiss="modal"><i class="fa fa-refresh"></i> Refresh
                 <script>
                   function reloadpage() {
@@ -644,7 +726,7 @@
                 <tr>
                   <td scope="row"><?php echo $tampildatabalita['nik'] ?></td>
                   <td>
-                    <center><img src="file/<?php echo $tampildatabalita['foto']; ?>" style="width:150px; height:200px;"></center>
+                    <center><img src="file/<?php echo $tampildatabalita['foto']; ?>" style="width:100px; height:150px;"></center>
                   </td>
                   <td><?php echo $tampildatabalita['namabalita'] ?></td>
                   <td><?php echo $tampildatabalita['anakdari'] ?></td>
@@ -780,6 +862,7 @@
 </body>
 <script src="aset/js/bootstrap.bundle.min.js"></script>
 <script src="datatables/datatables.min.js"></script>
+<script src="aset/js/jquery-3.6.3.min.js"></script>
 <script>
   $(document).ready(function() {
 
@@ -789,9 +872,8 @@
     $('.dataTables_filter input[type="search"]').css({
       'width': '150%',
       'display': 'inline-block',
-
-
     });
+
     $('.dataTables_filter input[type="search"]').attr({
       'placeholder': 'Cari Data...'
     });
@@ -804,6 +886,7 @@
 </html>
 <?php
 include "koneksi.php";
+
 $foto = $_FILES['foto']['name'];
 $file_tmp = $_FILES['foto']['tmp_name'];
 $id_ibu = $_POST['id_ibu'];
@@ -863,14 +946,22 @@ move_uploaded_file($file_tmp, 'file/' . $foto);
 
 
 if (isset($_POST['simpankonsulibu'])) {
-  mysqli_query($koneksi, "INSERT INTO tb_konsulibu set  namaibu ='$namaibu', nik = '$nik', keperluan = '$keperluan',
+  mysqli_query($koneksi, "INSERT INTO tb_konsulibu set id_ibu ='$id_ibu', namaibu ='$namaibu', nik = '$nik', keperluan = '$keperluan',
   usiakandungan = '$usiakandungan', tensidarah = '$tensidarah', beratbadan = '$beratbadan', keluhan = '$keluhan', 
   saran = '$saran', statuskesehatanibu = '$statuskesehatanibu', obatibu = '$obatibu', 
   tanggalkonsul = '$tanggalkonsul'");
 }
 header("Location:index.php");
 
+
+if (isset($_POST['updateibu'])) {
+  mysqli_query($koneksi, "UPDATE tb_ibu SET namaibu = '$namaibu', nik = '$nik', nohp='$nohp', tgllahir='$tgllahir', foto='$foto', riwayatpenyakit='$riwayatpenyakit', jumlahanakluarkandungan ='$jumlahanakluarkandungan', statuskehamilan='$statuskehamilan', statuspernikahan='$statuspernikahan', alamat='$alamat', pekerjaan='$pekerjaan', bpjs='$bpjs', tgldftr='$tgldftr' where id_ibu='$id_ibu'");
+}
+header("Location:index.php");
+move_uploaded_file($file_tmp, 'file/' . $foto);
+
 ?>
+
 
 <script>
   if (window.history.replaceState) {
