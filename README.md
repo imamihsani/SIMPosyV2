@@ -1,4 +1,8 @@
 # SIMPosyandu
+New update:<br>
+- Fix PDF & Excel Convert<br>
+- Fix consult, edit, login, register & delete menu<br>
+- Add new table for users<br><br>
 
 --BAHASA--<br>
 Implementasi Aplikasi Ini Berupa CRUD Sederhana Untuk Menunjang Perekapan Data Berupa Sistem Informasi Berbasis Web.<br>
