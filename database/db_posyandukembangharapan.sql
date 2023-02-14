@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2023 at 07:40 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Waktu pembuatan: 02 Feb 2023 pada 13.32
+-- Versi server: 10.4.24-MariaDB
+-- Versi PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_balita`
+-- Struktur dari tabel `tb_balita`
 --
 
 CREATE TABLE `tb_balita` (
@@ -43,19 +42,10 @@ CREATE TABLE `tb_balita` (
   `tgldftrbalita` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `tb_balita`
---
-
-INSERT INTO `tb_balita` (`id_balita`, `nik`, `namabalita`, `anakdari`, `tgllahir`, `foto`, `riwayatpenyakit`, `jeniskelamin`, `bk`, `alamat`, `bpjs`, `tgldftrbalita`) VALUES
-(1, '09876', 'Dede', 'Siti Khomsiah', '2023-01-04', 'baby.png', '-', 'laki-laki', 'tidak', 'Temon', 'tidak', '2023-01-04'),
-(2, '765', 'Nana', 'Sri Welas', '2023-01-04', 'baby.png', '-', 'perempuan', 'Tidak', 'Sleman', 'tidak', '04-01-2023 14:3'),
-(3, '54', 'ruy', 'Azna', '2023-01-04', 'baby.png', '-', 'laki-laki', 'Tidak', 'uy', 'ya', '04-01-2023 15:0');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_ibu`
+-- Struktur dari tabel `tb_ibu`
 --
 
 CREATE TABLE `tb_ibu` (
@@ -75,18 +65,33 @@ CREATE TABLE `tb_ibu` (
   `tgldftr` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tb_ibu`
+-- Struktur dari tabel `tb_konsulbalita`
 --
 
-INSERT INTO `tb_ibu` (`id_ibu`, `nik`, `namaibu`, `nohp`, `tgllahir`, `foto`, `riwayatpenyakit`, `jumlahanakluarkandungan`, `statuskehamilan`, `statuspernikahan`, `alamat`, `pekerjaan`, `bpjs`, `tgldftr`) VALUES
-(70, '1234098765', 'Sumarni', '088981234567', '2023-01-01', 'female.png', 'TBC', 1, 'mengandung', 'bersuami', 'Krobokan, Banguntapan', 'Wirausaha', 'ya', '01-01-2023 07:55:45'),
-(71, '098711', 'sa', '11', '2022-10-12', 'female2.jpg', 'Tipes', 11, 'mengandung', 'bersuami', 'Afrika', 'Manajer Proyek', 'ya', '04-01-2023 15:04:17');
+CREATE TABLE `tb_konsulbalita` (
+  `id_balita` varchar(255) NOT NULL,
+  `namabalita` varchar(200) NOT NULL,
+  `nik` varchar(25) NOT NULL,
+  `anakdari` varchar(100) NOT NULL,
+  `usiamingguke` varchar(100) NOT NULL,
+  `beratbadan` varchar(100) NOT NULL,
+  `panjangbadan` varchar(200) NOT NULL,
+  `lingkarkepala` varchar(200) NOT NULL,
+  `lingkarlengan` varchar(200) NOT NULL,
+  `keluhan` varchar(255) NOT NULL,
+  `statuskesehatanbalita` varchar(200) NOT NULL,
+  `saran` varchar(255) NOT NULL,
+  `vitamin_obat` varchar(255) NOT NULL,
+  `tanggalkonsul` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_konsulibu`
+-- Struktur dari tabel `tb_konsulibu`
 --
 
 CREATE TABLE `tb_konsulibu` (
@@ -104,45 +109,66 @@ CREATE TABLE `tb_konsulibu` (
   `tanggalkonsul` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tb_konsulibu`
+-- Struktur dari tabel `users`
 --
 
-INSERT INTO `tb_konsulibu` (`id_ibu`, `namaibu`, `nik`, `keperluan`, `usiakandungan`, `tensidarah`, `beratbadan`, `keluhan`, `saran`, `statuskesehatanibu`, `obatibu`, `tanggalkonsul`) VALUES
-(70, 'Sumarni', '1234098765', 'Cek Kandungan', '4', '109', '69', '-', 'Istirahat Cukup', 'Sehat', 'Susu Prenagen', '07-01-2023'),
-(71, 'sa', '098711', 'Konsul KB', '-', '101', '55', 'Bercak di pipi', 'Kurangi pil', 'Sehat', '-', '07-01-2023');
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `role` varchar(100) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `notelp` varchar(30) NOT NULL,
+  `trn_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `tb_balita`
+-- Indeks untuk tabel `tb_balita`
 --
 ALTER TABLE `tb_balita`
   ADD PRIMARY KEY (`id_balita`);
 
 --
--- Indexes for table `tb_ibu`
+-- Indeks untuk tabel `tb_ibu`
 --
 ALTER TABLE `tb_ibu`
   ADD PRIMARY KEY (`id_ibu`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Indeks untuk tabel `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `tb_balita`
+-- AUTO_INCREMENT untuk tabel `tb_balita`
 --
 ALTER TABLE `tb_balita`
-  MODIFY `id_balita` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_balita` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `tb_ibu`
+-- AUTO_INCREMENT untuk tabel `tb_ibu`
 --
 ALTER TABLE `tb_ibu`
-  MODIFY `id_ibu` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id_ibu` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
+-- AUTO_INCREMENT untuk tabel `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

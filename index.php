@@ -1,3 +1,7 @@
+<?php
+include "session.php";
+include "koneksi.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +15,7 @@
   <link rel="stylesheet" href="fontawesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="bootstrapicons/bootstrap-icons.css">
   <link rel="stylesheet" href="aset/css/login.css">
+  <link rel="stylesheet" href="datatables/DataTables-1.13.1/css/dataTables.bootstrap.min.css">
   <link rel="preload" as="image" href="aset/gambar/">
   <!-- <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css" /> -->
   <title>Home | SIMP Krobokan</title>
@@ -318,7 +323,8 @@
                   </div>
                 </div>
               </div>
-              <a href="exportibu.php"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-file-text-o"></i> Export</button></a>
+              <a href="exportibupdf.php" target="_blank"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-file-pdf-o"></i> Export PDF</button></a>
+              <a href="exportibu.php"><button type="button" class="btn btn-sm btn-success"><i class="fa fa-file-excel-o"></i> Export Excel</button></a>
               <button type="button" value="Reload" onClick="document.location.reload(true)" class="btn btn-sm btn-info" data-bs-dismiss="modal"><i class="fa fa-refresh"></i> Refresh
                 <script>
                   function reloadpage() {
@@ -582,13 +588,18 @@
                           <button type="button" class="btn-close" style="background-color:aliceblue;" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" style="background-color:indianred;">
-                          <button class="btn btn-danger btn-sm float-end mb-3 shadow" style="border-color:aliceblue" type="" name="hapusibu"><i class="bi bi-trash"></i> Hapus</button>
-                          <br><br>
-                          <p class="text-center text-white" style="font-size:13px;">Posyandu Kembang Harapan<br>Krobokan, Tamanan, Banguntapan, Bantul, D.I. Yogyakarta <br>Copyright <script type="text/javascript">
-                              var creditsyear = new Date();
-                              document.write(creditsyear.getFullYear());
-                            </script>
-                          </p>
+                          <form method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="id_ibu" class="form-control" id="id_ibu" value="<?php echo $tampildataibu['id_ibu'] ?>" required readonly autocomplete="off">
+                            <p class="text-white"><?php echo $tampildataibu['namaibu'] ?> - <?php echo $tampildataibu['nik'] ?>
+                              <button class="btn btn-danger btn-sm float-end mb-3 shadow" style="border-color:aliceblue" type="" name="hapusibu"><i class="bi bi-trash"></i> Hapus</button>
+                            </p>
+                            <br><br>
+                            <p class="text-center text-white" style="font-size:13px;">Posyandu Kembang Harapan<br>Krobokan, Tamanan, Banguntapan, Bantul, D.I. Yogyakarta <br>Copyright <script type="text/javascript">
+                                var creditsyear = new Date();
+                                document.write(creditsyear.getFullYear());
+                              </script>
+                            </p>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -598,6 +609,8 @@
               <?php } ?>
             </tbody>
           </table>
+          <a href="register.php"><button class="btn btn-outline btn-primary btn-sm float-start"><i class="fa fa-user-plus"></i> Register</button></a>
+          <a href="logout.php"><button class="btn btn-outline btn-danger btn-sm float-end"><i class="fa fa-sign-out"></i> Logout</button></a>
         </div>
       </div>
 
@@ -679,7 +692,9 @@
                   </div>
                 </div>
               </div>
-              <a href="exportbalita.php"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-file-text-o"></i> Export</button></a>
+              <a href="exportbalitapdf.php" target="_blank"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-file-pdf-o"></i> Export PDF</button></a>
+              <a href="exportbalita.php"><button type="button" class="btn btn-sm btn-success"><i class="fa fa-file-excel-o"></i> Export Excel</button></a>
+
               <button type="button" value="Reload" onClick="document.location.reload(true)" class="btn btn-sm btn-info" data-bs-dismiss="modal"><i class="fa fa-refresh"></i> Refresh
                 <script>
                   function reloadpage() {
@@ -735,7 +750,10 @@
                   <td>
                     <center><button type="button" class="btn btn-sm btn-light mb-1" data-bs-toggle="modal" data-bs-target="#konsul<?php echo $tampildatabalita['id_balita'] ?>">
                         <i class="fa fa-stethoscope"></i>
-                      </button> <button class="btn btn-sm btn-warning mb-1"><i class="fa fa-edit"></i></button> <button class="btn btn-sm btn-success mb-1"><i class="fa fa-history"></i></button> <button class="btn btn-sm btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#hapus<?php echo $tampildatabalita['id_balita'] ?>"><i class="fa fa-trash"></i></button></center>
+                      </button> <button class="btn btn-sm btn-warning mb-1" data-bs-toggle="modal" data-bs-target="#editbalita<?php echo $tampildatabalita['id_balita'] ?>"><i class="fa fa-edit"></i></button>
+                      <a href="riwayatbalita.php?id_balita=<?php echo $tampildatabalita['id_balita']; ?>"><button class="btn btn-sm btn-success mb-1"><i class="fa fa-history"></i></button></a>
+                      <button class="btn btn-sm btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#hapusbalita<?php echo $tampildatabalita['id_balita'] ?>"><i class="fa fa-trash"></i></button>
+                    </center>
                   </td>
                   <div class="modal fade" id="konsul<?php echo $tampildatabalita['id_balita'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-md">
@@ -747,6 +765,7 @@
                         <div class="modal-body" style="background-color:lavender;">
 
                           <form method="post" action="">
+                            <input type="hidden" name="id_balita" style="visibility:;" class="form-control" id="floatingInput" value="<?php echo $tampildatabalita['id_balita'] ?>" required readonly autocomplete="off">
                             <div class="row">
                               <center><img src="file/<?php echo $tampildatabalita['foto']; ?>" class="mb-2" style="width:100px; height:100px;"></center>
                               <!-- <div class="card mb-1" style="background-color:yellow">
@@ -804,7 +823,7 @@
                               </div>
                               <div class="input-group input-group-sm mb-1 ">
                                 <label class="input-group-text" for="inputGroup">Vitamin/Obat</label>
-                                <input type="text" name="vitamin/obat" class="form-control" id="floatingInput" placeholder="Vitamin/Obat" required autocomplete="off">
+                                <input type="text" name="vitamin_obat" class="form-control" id="floatingInput" placeholder="Vitamin/Obat" required autocomplete="off">
                               </div>
                               <div class="input-group input-group-sm mb-1 ">
                                 <label class="input-group-text" for="inputGroup">Tgl. Konsul</label>
@@ -828,7 +847,103 @@
                     </div>
                   </div>
 
-                  <div class="modal fade" id="hapus<?php echo $tampildatabalita['id_balita'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                  <div class="modal fade" id="editbalita<?php echo $tampildatabalita['id_balita'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                      <div class="modal-content">
+                        <div class="modal-header" style="background-color:goldenrod;">
+                          <h1 class="modal-title fs-5" style="color:black" id="exampleModalLabel">Rubah Data Detail Balita</h1>
+                          <button type="button" class="btn-close" style="background-color: aliceblue;" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="background-color:khaki;">
+                          <form method="POST" action="" enctype="multipart/form-data">
+
+                            <?php
+                            include "koneksi.php";
+                            $id_balita = $tampildatabalita['id_balita'];
+                            $ubahdatabalita = mysqli_query($koneksi, "SELECT * FROM tb_balita WHERE id_balita = '$id_balita'");
+                            $tampildatabalita = mysqli_fetch_array($ubahdatabalita)
+                            ?>
+                            <div class="row">
+                              <center>
+                                <img src="file/<?php echo $tampildatabalita['foto']; ?>" class="mb-2" style="width:100px; height:100px;">
+                              </center>
+                              <!-- <div class="card mb-1" style="background-color:yellow">
+                                <div class="card-body"> -->
+                              <!-- </div>
+                              </div> -->
+                              <input type="text" name="id_balita" style="visibility:hidden;" class="form-control" id="id_balita" value="<?php echo $tampildatabalita['id_balita'] ?>" required readonly autocomplete="off">
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">Nama</label>
+                                <input type="text" name="namabalita" class="form-control" id="namabalita" value="<?php echo $tampildatabalita['namabalita'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">NIK</label>
+                                <input type="number" name="nik" class="form-control" id="nik" value="<?php echo $tampildatabalita['nik'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">Anak Dari</label>
+                                <input type="text" name="anakdari" class="form-control" id="anakdari" value="<?php echo $tampildatabalita['anakdari'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">Tgl. Lahir</label>
+                                <input type="date" name="tgllahir" class="form-control" id="tgllahir" value="<?php echo $tampildatabalita['tgllahir'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">Foto</label>
+                                <input type="file" name="foto" class="form-control" id="foto" value="file/<?php echo $tampildataibu['foto'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1 ">
+                                <label class="input-group-text" for="inputGroupFile01">Riwayat Penyakit</label>
+                                <input type="text" name="riwayatpenyakit" class="form-control" id="riwayatpenyakit" value="<?php echo $tampildatabalita['riwayatpenyakit'] ?>" required autocomplete="off">
+                              </div>
+                              <div class="input-group input-group-sm mb-1 ">
+                                <select class="form-select form-select-sm" name="jeniskelamin" id="jeniskelamin" aria-label="Default select example" required>
+                                  <option>Jenis Kelamin</option>
+                                  <option value="laki-laki" name="jeniskelamin">Laki-laki</option>
+                                  <option value="perempuan" name="jeniskelamin">Perempuan</option>
+                                </select>
+                              </div>
+                              <div class="input-group input-group-sm mb-1 ">
+                                <select class="form-select form-select-sm" name="bk" id="bk" aria-label="Default select example" required>
+                                  <option>Berkebutuhan Khusus?</option>
+                                  <option value="ya" name="bk">Ya</option>
+                                  <option value="tidak" name="bk">Tidak</option>
+                                </select>
+                              </div>
+                              <div class="input-group input-group-sm mb-1">
+                                <label class="input-group-text" for="inputGroupFile01">Alamat</label>
+                                <input type="text" name="alamat" class="form-control" id="alamat" value="<?php echo $tampildatabalita['alamat'] ?>" required autocomplete="off">
+                              </div>
+
+                              <div class="input-group input-group-sm mb-1 ">
+                                <select class="form-select form-select-sm" name="bpjs" id="bpjs" aria-label="Default select example" required>
+                                  <option>BPJS</option>
+                                  <option value="ya" name="bpjs">Ya</option>
+                                  <option value="tidak" name="bpjs">Tidak</option>
+                                </select>
+                              </div>
+
+                              <input type="hidden" name="tgldftrbalita" class="form-control" id="tgldftrbalita" value="<?php echo $tampildatabalita['tgldftrbalita'] ?>" readonly autocomplete="off">
+                            </div>
+                            <button class="btn btn-warning btn-sm float-end mb-3 shadow" type="submit" name="updatebalita"><i class="bi bi-save"></i> Update</button>
+
+                          </form>
+                          <br><br>
+
+                          <p class="text-center text-muted" style="font-size:13px;">Posyandu Kembang Harapan<br>Krobokan, Tamanan, Banguntapan, Bantul, D.I. Yogyakarta <br>Copyright <script type="text/javascript">
+                              var creditsyear = new Date();
+                              document.write(creditsyear.getFullYear());
+                            </script>
+                          </p>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="modal fade" id="hapusbalita<?php echo $tampildatabalita['id_balita'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-md">
                       <div class="modal-content">
                         <div class="modal-header" style="background-color:darkred;">
@@ -836,9 +951,14 @@
                           <button type="button" class="btn-close" style="background-color:aliceblue;" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" style="background-color:indianred;">
-                          <button class="btn btn-danger btn-sm float-end mb-3 shadow" style="border-color:aliceblue" type="" name="hapusibu"><i class="bi bi-trash"></i> Hapus</button>
+                          <form method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="id_balita" class="form-control" id="id_balita" value="<?php echo $tampildatabalita['id_balita'] ?>" required readonly autocomplete="off">
+                            <p class="text-white"><?php echo $tampildatabalita['namabalita'] ?> - <?php echo $tampildatabalita['nik'] ?>
+                              <button class="btn btn-danger btn-sm float-end mb-3 shadow" style="border-color:aliceblue" type="" name="hapusbalita"><i class="bi bi-trash"></i> Hapus</button>
+                            </p>
+                          </form>
                           <br><br>
-                          <p class="text-center text-white" style="font-size:13px;">Posyandu Kembang Harapan<br>Krobokan, Tamanan, Banguntapan, Bantul, D.I. Yogyakarta <br>Copyright <script type="text/javascript">
+                          <p class="text-center text-white" style="font-size:13px;">Posyandu Kembang Harapan<br>Krobokan, Tamanan, Banguntapan, Bantul, D.I. Yogyakarta <br>Copyright: Imxx Ixxxxi <script type="text/javascript">
                               var creditsyear = new Date();
                               document.write(creditsyear.getFullYear());
                             </script>
@@ -852,6 +972,8 @@
               <?php } ?>
             </tbody>
           </table>
+          <a href="register.php"><button class="btn btn-outline btn-outline btn-primary btn-sm float-start"><i class="fa fa-user-plus"></i> Register</button></a>
+          <a href="logout.php"><button class="btn btn-outline btn-danger btn-sm float-end"><i class="fa fa-sign-out"></i> Logout</button></a>
         </div>
       </div>
     </div>
@@ -862,7 +984,7 @@
 </body>
 <script src="aset/js/bootstrap.bundle.min.js"></script>
 <script src="datatables/datatables.min.js"></script>
-<script src="aset/js/jquery-3.6.3.min.js"></script>
+<!-- <script src="aset/js/jquery-3.6.3.min.js"></script> -->
 <script>
   $(document).ready(function() {
 
@@ -870,7 +992,7 @@
     $('#datatable').DataTable();
 
     $('.dataTables_filter input[type="search"]').css({
-      'width': '150%',
+
       'display': 'inline-block',
     });
 
@@ -920,6 +1042,14 @@ $statuskesehatanibu = $_POST['statuskesehatanibu'];
 $obatibu = $_POST['obatibu'];
 $tanggalkonsul = $_POST['tanggalkonsul'];
 
+$id_balita = $_POST['id_balita'];
+$usiamingguke = $_POST['usiamingguke'];
+$panjangbadan = $_POST['panjangbadan'];
+$lingkarkepala = $_POST['lingkarkepala'];
+$lingkarlengan = $_POST['lingkarlengan'];
+$statuskesehatanbalita = $_POST['statuskesehatanbalita'];
+$vitamin_obat = $_POST['vitamin_obat'];
+
 if (isset($_POST['daftarkanibu'])) {
   mysqli_query($koneksi, "INSERT INTO tb_ibu set  id_ibu ='$id_ibu', tgldftr = '$tgldftr', nik = '$nik', 
   namaibu = '$namaibu', nohp = '$nohp', tgllahir = '$tgllahir', 
@@ -959,6 +1089,27 @@ if (isset($_POST['updateibu'])) {
 }
 header("Location:index.php");
 move_uploaded_file($file_tmp, 'file/' . $foto);
+
+if (isset($_POST['hapusibu'])) {
+  mysqli_query($koneksi, "DELETE FROM tb_ibu WHERE id_ibu = '$id_ibu'");
+}
+header("Location:index.php");
+
+if (isset($_POST['simpankonsulbalita'])) {
+  mysqli_query($koneksi, "INSERT INTO tb_konsulbalita set id_balita = '$id_balita', namabalita = '$namabalita', nik = '$nik', anakdari = '$anakdari', usiamingguke = '$usiamingguke', beratbadan = '$beratbadan', panjangbadan='$panjangbadan', lingkarkepala='$lingkarkepala', lingkarlengan='$lingkarlengan', keluhan='$keluhan', statuskesehatanbalita='$statuskesehatanbalita', saran='$saran', vitamin_obat ='$vitamin_obat', tanggalkonsul ='$tanggalkonsul' ");
+}
+header("Location:index.php");
+
+if (isset($_POST['updatebalita'])) {
+  mysqli_query($koneksi, "UPDATE tb_balita SET namabalita = '$namabalita', nik = '$nik', anakdari='$anakdari', tgllahir='$tgllahir', foto='$foto', riwayatpenyakit='$riwayatpenyakit', jeniskelamin ='$jeniskelamin', bk='$bk', alamat='$alamat', bpjs='$bpjs', tgldftrbalita='$tgldftrbalita' where id_balita='$id_balita'");
+}
+header("Location:index.php");
+move_uploaded_file($file_tmp, 'file/' . $foto);
+
+if (isset($_POST['hapusbalita'])) {
+  mysqli_query($koneksi, "DELETE FROM tb_balita WHERE id_balita = '$id_balita'");
+}
+header("Location:index.php");
 
 ?>
 

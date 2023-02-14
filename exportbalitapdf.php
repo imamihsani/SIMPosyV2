@@ -1,9 +1,3 @@
-<?php
-header("Content-type:application/vnd-ms-excel");
-header("Content-Disposition:attachment; filename=DataBalitaPosyanduKembangHarapan.xls");
-header("Pragma: no-cache");
-header("Expires: 0");
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,16 +17,20 @@ header("Expires: 0");
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="alert alert-warning mt-2" role="alert">
-            <a href="" onclick="window.print()" style="text-decoration:none;">
-                <h5 class="text-center text-dark">
-                    Data Balita Posyandu Kembang Harapan
-                </h5>
-            </a>
+    <div class="card" style="border:none">
+        <div class="card-body">
+            <button class="btn btn-sm btn-danger float-end" onclick="generatePDFBalita()"><i class="fa fa-file-pdf-o"></i> Export PDF</button>
         </div>
-        <table class="table table-responsive nowrap table-striped table-bordered table-primary" id="datatables">
+    </div>
+    <div class="container-fluid" id="pdf-area">
+        <div class="alert alert-warning mt-2" role="alert">
 
+            <h5 class="text-center text-dark">
+                Data Balita Posyandu Kembang Harapan
+            </h5>
+
+        </div>
+        <table style="border:1px solid" class="table table-responsive table-bordered">
             <thead>
                 <tr>
                     <th class="text-center text-white" style="background-color:#0275d8;">NIK</th>
@@ -48,7 +46,7 @@ header("Expires: 0");
             <tbody>
                 <?php
                 include "koneksi.php";
-                error_reporting(0);
+                // error_reporting(0);
                 $ambildatabalita = mysqli_query($koneksi, "SELECT * FROM tb_balita ORDER BY id_balita DESC");
                 while ($tampildatabalita = mysqli_fetch_array($ambildatabalita)) {
                 ?>
@@ -73,6 +71,13 @@ header("Expires: 0");
 <script src="aset/js/bootstrap.bundle.min.js"></script>
 <script src="datatables/datatables.min.js"></script>
 <script src="datatables/DataTables-1.13.1/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function generatePDFBalita() {
+        var element = document.getElementById('pdf-area');
+        html2pdf(element);
+    }
+</script>
 <script>
     // $(document).ready(function() {
 
@@ -90,3 +95,18 @@ header("Expires: 0");
 
     // });
 </script>
+
+<?php
+// $content = ob_get_clean();
+// require_once(dirname(__FILE__) . './html2pdf/html2pdf.class.php');
+// try {
+//     $html2pdf = new HTML2PDF('P', 'A4', 'en',  array(8, 8, 8, 8));
+//     $html2pdf->pdf->SetDisplayMode('fullpage');
+//     $html2pdf->writeHTML($content, isset($_GET['vuehtml']));
+//     $html2pdf->Output('DataIbu.pdf');
+// } catch (HTML2PDF_exception $e) {
+//     echo $e;
+//     exit;
+// }
+
+?>
